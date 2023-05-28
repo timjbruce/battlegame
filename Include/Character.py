@@ -1,4 +1,6 @@
 class Character():
+    pygame = None
+    screen = None
 
     def __init__(self, row, col, active_color, game_field, pygame, screen, 
                 character_class='FIGHTER'):
@@ -7,8 +9,10 @@ class Character():
         self.character_class = character_class
         self.active_color = active_color
         self.active = True
-        self.pygame = pygame
-        self.screen = screen
+        if self.pygame is None:
+            self.pygame = pygame
+        if self.screen is None:
+            self.screen = screen
         print(f"new character at {row}, {col}")
         self.set_position(row, col, game_field)
 

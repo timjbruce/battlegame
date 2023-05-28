@@ -2,24 +2,30 @@ from . import FieldObject
 
 class GameField():
     grid = []
+    pygame = None
+    screen = None
 
-    def __init__(self, window_height, window_width, tile_size, tile_margin, base_color, retreat_color):
+    def __init__(self, window_height, window_width, tile_size, tile_margin, base_color, retreat_color, pygame, screen):
         self.window_height = window_height
         self.window_width = window_width
         self.base_color = base_color
         self.retreat_color = retreat_color
         self.tile_size = tile_size
         self.tile_margin = tile_margin
+        if self.pygame is None:
+            self.pygame = pygame
+        if self.screen is None:
+            self.screen = screen
         for row in range(self.window_height):     
             self.grid.append([])
             for col in range(self.window_width):
                 if col == 0 or col == (self.window_width - 1):
-                    tile = FieldObject(row, col, True, "Retreat")
+                    tile = FieldObject.FieldObject(row, col, True, "Retreat")
                 else:
-                    tile = FieldObject(row, col, True, "Grounds")
+                    tile = FieldObject.FieldObject(row, col, True, "Grounds")
                 self.grid[row].append(tile)
 
-    def draw(self, pygame, screen):
+    def draw(self):
         for row in range(len(self.grid)):
             for col in range(len(self.grid[row])):
                 if self.grid[row][col].name == "Retreat":
@@ -27,13 +33,15 @@ class GameField():
                 else:
                     color = self.base_color
                 if self.grid[row][col].border:
-                    pygame.draw.rect(screen, color, [(self.tile_size + self.tile_margin) * col + self.tile_margin,
-                                (self.tile_size + self.tile_margin) * row + self.tile_margin,
-                                self.tile_size + self.tile_margin, self.tile_size + self.tile_margin])
+                    self.pygame.draw.rect(self.screen, color, [
+                        (self.tile_size + self.tile_margin) * col + self.tile_margin,
+                        (self.tile_size + self.tile_margin) * row + self.tile_margin,
+                        self.tile_size + self.tile_margin, self.tile_size + self.tile_margin])
                 else:
-                    pygame.draw.rect(screen, color, [(self.tile_size + self.tile_margin) * col + self.tile_margin,
-                                (self.tile_size + self.tile_margin) * row + self.tile_margin,
-                                self.tile_size + self.tile_margin, self.tile_size + self.tile_margin])
+                    self.ygame.draw.rect(self.screen, color, [
+                        (self.tile_size + self.tile_margin) * col + self.tile_margin,
+                        (self.tile_size + self.tile_margin) * row + self.tile_margin,
+                        self.tile_size + self.tile_margin, self.tile_size + self.tile_margin])
     
     def get_tile_size(self):
         return self.tile_size

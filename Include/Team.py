@@ -2,14 +2,19 @@ import random
 from . import Character
 
 class Team():
+    pygame = None
+    screen = None
+
     def __init__(self, coord, number_of_players, active_color, game_field, pygame, screen):
         self.players = []
         self.active = True
         self.coord = coord
         self.current_player = -1
         self.number_of_players = number_of_players
-        self.pygame = pygame
-        self.screen = screen
+        if self.pygame is None:
+            self.pygame = pygame
+        if self.screen is None:
+            self.screen = screen
         for i in range(0, self.number_of_players):
             row = random.randint(1, 20)
             if row > 9:

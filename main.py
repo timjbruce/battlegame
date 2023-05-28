@@ -36,9 +36,6 @@ WINDOW_HEIGHT = 10
 NUMBER_OF_TEAMS = 2
 PLAYERS_PER_TEAM = 2
 
-
-
-
 def get_next_team_player(move_team, teams):
     print(f"current team {move_team}")
     if teams[move_team].get_next_player() == -1:
@@ -50,7 +47,6 @@ def get_next_team_player(move_team, teams):
             teams[move_team].get_next_player()
     return move_team
         
-
 def main():
     random.seed()
     pygame.init()
@@ -58,8 +54,8 @@ def main():
     clock = pygame.time.Clock()
     screen.fill(BLACK)
     game_board = GameField.GameField(WINDOW_HEIGHT, WINDOW_WIDTH, TILE_SIZE, TILE_MARGIN,
-                            LAWN_GREEN, OLIVE)
-    game_board.draw(pygame, screen)
+                            LAWN_GREEN, OLIVE, pygame, screen)
+    game_board.draw()
     teams = []
     teams.append(Team.Team(1, PLAYERS_PER_TEAM, RED, game_board, pygame, screen))
     teams.append(Team.Team(11, PLAYERS_PER_TEAM, BLUE, game_board, pygame, screen))
