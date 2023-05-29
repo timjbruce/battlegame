@@ -52,8 +52,17 @@ class GameField():
     def get_window_height(self):
         return self.window_height
     
+    def set_player_location(self, row, col, value):
+        self.grid[row][col].set_player_location(value)
+    
     def get_window_width(self):
         return self.window_width
     
     def get_base_color(self):
         return self.base_color
+    
+    def is_spot_available(self, row, col):
+        if self.grid[row][col].get_name() == "Grounds" and self.grid[row][col].is_available():
+            return True
+        else:
+            return False

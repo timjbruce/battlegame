@@ -16,15 +16,19 @@ class Team():
         if self.screen is None:
             self.screen = screen
         for i in range(0, self.number_of_players):
-            row = random.randint(1, 20)
-            if row > 9:
-                col = 1 + coord
-                while row > 9:
-                    row = row - 10
-            else:
-                col = coord
+            generating_start_location = True
+            while generating_start_location:
+                row = random.randint(1, 20)
+                if row > 9:
+                    col = 1 + coord
+                    while row > 9:
+                        row = row - 10
+                else:
+                    col = coord
+                if game_field.is_spot_available(row, col):
+                    print(f"checking {row =} {col =}")
+                    generating_start_location = False
             self.players.append(Character.Character(row, col, active_color, game_field, pygame, screen))
-            print(f"this team now has {len(self.players)} players")
 
     def get_player_count(self):
         return len(self.players)
@@ -44,7 +48,6 @@ class Team():
         return self.players[self.current_player]
 
     def get_next_player(self):
-        print(f"my current player is {self.current_player =}")
         if self.current_player == self.get_player_count() - 1:
             self.current_player = -1
         else:
@@ -56,7 +59,6 @@ class Team():
             print(f"{finding_player =}")
             if finding_player:
                 self.active = False
-                print(f"team is no longer active")
                 self.current_player = -1
         return self.current_player
     

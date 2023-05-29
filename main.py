@@ -59,21 +59,16 @@ def get_next_team_player(move_team, teams):
     """
     Finds the next active team and player able to make a move
     """
-    print(f"current team {move_team =}")
-    starting_team = move_team
     ## does current team have more moves?
     check_current_team = teams[move_team].get_next_player()
-    print(f"checkign current team {check_current_team =}")
     while check_current_team == -1:
         ## does other team have moves?
         if move_team == NUMBER_OF_TEAMS - 1:
             move_team = 0
         else:
             move_team = move_team + 1
-        print(f"now checking {move_team =}")
         check_current_team = teams[move_team].get_next_player()
     ### 
-    print(f"returning {move_team =}")
     return move_team
         
 def main():
@@ -91,7 +86,6 @@ def main():
     running = True
     move_team = 0
     teams[move_team].get_next_player()
-    print(f"starting values {move_team =} and {teams[move_team].get_current_player() =}")
     while running:
         pygame.display.flip()
         for event in pygame.event.get():
@@ -113,8 +107,6 @@ def main():
                         #end turn, next player
                         teams[move_team].end_player_turn()
                         move_team = get_next_team_player(move_team, teams)
-                        print(f"current team and player: {move_team =}, {teams[move_team].get_current_player() =}")
-                        print(f"player is active: {teams[move_team].get_current_player_object().get_active()}")
         clock.tick(60)
 
     pygame.quit()
