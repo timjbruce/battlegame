@@ -82,7 +82,7 @@ def main():
     game_board.draw()
     teams = []
     for team in TEAMS:
-        teams.append(Team.Team(team['startingLoc'], PLAYERS_PER_TEAM, team['color'], game_board, pygame, screen))
+        teams.append(Team.Team(team['startingLoc'], PLAYERS_PER_TEAM, team['color'], game_board))
     running = True
     move_team = 0
     teams[move_team].get_next_player()

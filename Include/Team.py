@@ -2,19 +2,13 @@ import random
 from . import Character
 
 class Team():
-    pygame = None
-    screen = None
 
-    def __init__(self, coord, number_of_players, active_color, game_field, pygame, screen):
+    def __init__(self, coord, number_of_players, active_color, game_field):
         self.players = []
         self.active = True
         self.coord = coord
         self.current_player = -1
         self.number_of_players = number_of_players
-        if self.pygame is None:
-            self.pygame = pygame
-        if self.screen is None:
-            self.screen = screen
         for i in range(0, self.number_of_players):
             generating_start_location = True
             while generating_start_location:
@@ -28,7 +22,7 @@ class Team():
                 if game_field.is_spot_available(row, col):
                     print(f"checking {row =} {col =}")
                     generating_start_location = False
-            self.players.append(Character.Character(row, col, active_color, game_field, pygame, screen))
+            self.players.append(Character.Character(row, col, active_color, game_field))
 
     def get_player_count(self):
         return len(self.players)

@@ -32,16 +32,19 @@ class GameField():
                     color = self.retreat_color
                 else:
                     color = self.base_color
-                if self.grid[row][col].border:
-                    self.pygame.draw.rect(self.screen, color, [
-                        (self.tile_size + self.tile_margin) * col + self.tile_margin,
-                        (self.tile_size + self.tile_margin) * row + self.tile_margin,
-                        self.tile_size + self.tile_margin, self.tile_size + self.tile_margin])
-                else:
-                    self.ygame.draw.rect(self.screen, color, [
-                        (self.tile_size + self.tile_margin) * col + self.tile_margin,
-                        (self.tile_size + self.tile_margin) * row + self.tile_margin,
-                        self.tile_size + self.tile_margin, self.tile_size + self.tile_margin])
+                self.draw_cell(row, col, color)
+
+    def draw_cell(self, row, col, color):
+        if self.grid[row][col].border:
+            self.pygame.draw.rect(self.screen, color, [
+                (self.tile_size + self.tile_margin) * col + self.tile_margin,
+                (self.tile_size + self.tile_margin) * row + self.tile_margin,
+                self.tile_size + self.tile_margin, self.tile_size + self.tile_margin])
+        else:
+            self.pygame.draw.rect(self.screen, color, [
+                (self.tile_size + self.tile_margin) * col + self.tile_margin,
+                (self.tile_size + self.tile_margin) * row + self.tile_margin,
+                self.tile_size + self.tile_margin, self.tile_size + self.tile_margin])
     
     def get_tile_size(self):
         return self.tile_size
@@ -52,8 +55,12 @@ class GameField():
     def get_window_height(self):
         return self.window_height
     
-    def set_player_location(self, row, col, value):
-        self.grid[row][col].set_player_location(value)
+    def set_player_location(self, row, col, player_located, active_color):
+        self.grid[row][col].set_player_location(player_located)
+        if player_located:
+            self.draw_cell(row, col, active_color)
+        else:
+            self.draw_cell(row, col, self.base_color)
     
     def get_window_width(self):
         return self.window_width
@@ -62,7 +69,10 @@ class GameField():
         return self.base_color
     
     def is_spot_available(self, row, col):
-        if self.grid[row][col].get_name() == "Grounds" and self.grid[row][col].is_available():
+        if self.grid[row][col].is_available():
             return True
         else:
             return False
+        
+    def is_valid(self, row, col):
+        return (-1 < row < self.get_window_height()) and (-1 < col < self.get_window_width())
