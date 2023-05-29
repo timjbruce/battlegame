@@ -65,8 +65,8 @@ class Team():
     def get_active(self):
         return self.active
     
-    def move_current_player(self, by_row, by_col, game_board):
-        self.players[self.current_player].move(by_row, by_col, game_board, self.pygame, self.screen)
+    def move_current_player(self, by_row, by_col):
+        self.players[self.current_player].move(by_row, by_col)
 
     def end_player_turn(self):
         self.players[self.current_player].end_turn()

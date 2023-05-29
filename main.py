@@ -96,13 +96,13 @@ def main():
                     case pygame.K_d:
                         print('')
                     case pygame.K_DOWN:
-                        teams[move_team].move_current_player(1, 0, game_board)
+                        teams[move_team].move_current_player(1, 0)
                     case pygame.K_UP:
-                        teams[move_team].move_current_player(-1, 0, game_board)
+                        teams[move_team].move_current_player(-1, 0)
                     case pygame.K_LEFT:
-                        teams[move_team].move_current_player(0, -1, game_board)
+                        teams[move_team].move_current_player(0, -1)
                     case pygame.K_RIGHT:
-                        teams[move_team].move_current_player(0, 1, game_board)
+                        teams[move_team].move_current_player(0, 1)
                     case pygame.K_SPACE:
                         #end turn, next player
                         teams[move_team].end_player_turn()
