@@ -44,6 +44,7 @@ class Team():
         return self.players[self.current_player]
 
     def get_next_player(self):
+        print(f"my current player is {self.current_player =}")
         if self.current_player == self.get_player_count() - 1:
             self.current_player = -1
         else:
@@ -52,13 +53,18 @@ class Team():
                 self.current_player = self.current_player + 1
                 if self.players[self.current_player].get_active():
                     finding_player = False
+            print(f"{finding_player =}")
             if finding_player:
                 self.active = False
                 print(f"team is no longer active")
+                self.current_player = -1
         return self.current_player
     
     def get_active(self):
         return self.active
     
     def move_current_player(self, by_row, by_col, game_board):
-        self.players[self.get_current_player()].move(by_row, by_col, game_board, self.pygame, self.screen)
+        self.players[self.current_player].move(by_row, by_col, game_board, self.pygame, self.screen)
+
+    def end_player_turn(self):
+        self.players[self.current_player].end_turn()

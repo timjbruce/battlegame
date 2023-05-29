@@ -18,6 +18,11 @@ from pygame.locals import (
     QUIT
 )
 
+"""
+Globals to define base colors for use in the game. These can then be referenced
+by the globals for the specific game being developed. These should not need to
+change for any implementation.
+"""
 BLACK = (0,0,0)
 WHITE = (255, 255, 255)
 BLUE = (0, 0, 255)
@@ -27,24 +32,48 @@ GREEN = (0, 255, 0)
 LAWN_GREEN = (124,252,0)
 DARK_GREEN = (0,100,0)
 OLIVE = (128,128,0)
-SIZE = 60
+"""
+These are game sepcific globals. Adjust to meet your needs:
+    TILE_SIZE: size of a tile in pixes. Assumes a square.
+    TILE_MARGIN: size in pixes of a margin, if margins are wanted.
+    WINDOW_WITH: size of window width, in tiles.
+    WINDOW_HEIGHT: size of window height, in tiles.-
+    NUMBER_OF_TEAMS: number of teams that will be created. To be further developed.
+    PLAYERS_PER_TEAM: number of players to generate per team.
+    PLAYABLE_TILE: color of tile that character can move on.
+    RETREAT_TILE: color of tile to use for out of bounds.
+"""
 TILE_SIZE = 40
-PIP_SIZE = 40                                
-TILE_MARGIN = 4
+TILE_MARGIN = 0
 WINDOW_WIDTH = 14 
 WINDOW_HEIGHT = 10
 NUMBER_OF_TEAMS = 2
 PLAYERS_PER_TEAM = 2
+PLAYABLE_TILE = LAWN_GREEN
+RETREAT_TILE = OLIVE
+TEAMS = [{ "color": RED, "startingLoc": 1},
+     { "color": BLUE, "startingLoc": 11}]
+
 
 def get_next_team_player(move_team, teams):
-    print(f"current team {move_team}")
-    if teams[move_team].get_next_player() == -1:
+    """
+    Finds the next active team and player able to make a move
+    """
+    print(f"current team {move_team =}")
+    starting_team = move_team
+    ## does current team have more moves?
+    check_current_team = teams[move_team].get_next_player()
+    print(f"checkign current team {check_current_team =}")
+    while check_current_team == -1:
+        ## does other team have moves?
         if move_team == NUMBER_OF_TEAMS - 1:
             move_team = 0
-            teams[move_team].get_next_player()
         else:
             move_team = move_team + 1
-            teams[move_team].get_next_player()
+        print(f"now checking {move_team =}")
+        check_current_team = teams[move_team].get_next_player()
+    ### 
+    print(f"returning {move_team =}")
     return move_team
         
 def main():
@@ -54,11 +83,11 @@ def main():
     clock = pygame.time.Clock()
     screen.fill(BLACK)
     game_board = GameField.GameField(WINDOW_HEIGHT, WINDOW_WIDTH, TILE_SIZE, TILE_MARGIN,
-                            LAWN_GREEN, OLIVE, pygame, screen)
+                            PLAYABLE_TILE, RETREAT_TILE, pygame, screen)
     game_board.draw()
     teams = []
-    teams.append(Team.Team(1, PLAYERS_PER_TEAM, RED, game_board, pygame, screen))
-    teams.append(Team.Team(11, PLAYERS_PER_TEAM, BLUE, game_board, pygame, screen))
+    for team in TEAMS:
+        teams.append(Team.Team(team['startingLoc'], PLAYERS_PER_TEAM, team['color'], game_board, pygame, screen))
     running = True
     move_team = 0
     teams[move_team].get_next_player()
@@ -82,8 +111,9 @@ def main():
                         teams[move_team].move_current_player(0, 1, game_board)
                     case pygame.K_SPACE:
                         #end turn, next player
+                        teams[move_team].end_player_turn()
                         move_team = get_next_team_player(move_team, teams)
-                        print(f"starting values {move_team =} and {teams[move_team].get_current_player() =}")
+                        print(f"current team and player: {move_team =}, {teams[move_team].get_current_player() =}")
                         print(f"player is active: {teams[move_team].get_current_player_object().get_active()}")
         clock.tick(60)
 

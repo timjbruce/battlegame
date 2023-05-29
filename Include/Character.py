@@ -38,7 +38,11 @@ class Character():
                     print("player made invalid move")
             if self.col == 0 or self.col == game_field.get_window_width() - 1:
                 self.active = False
+                print(f"player is now inactive")
         return self.row, self.col
     
     def get_active(self):
         return self.active
+    
+    def end_turn(self):
+        print(f"do stuff for end of turn")
