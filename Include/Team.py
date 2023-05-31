@@ -2,27 +2,34 @@ import random
 from . import Character
 
 class Team():
+    pygame = None
+    screen = None
 
-    def __init__(self, coord, number_of_players, active_color, game_field):
+    def __init__(self, coord, number_of_players, team_color, game_field, pygame, screen):
         self.players = []
         self.active = True
         self.coord = coord
         self.current_player = -1
+        if self.pygame == None:
+            self.pygame = pygame
+        if screen == None:
+            self.screen = screen
         self.number_of_players = number_of_players
         for i in range(0, self.number_of_players):
             generating_start_location = True
             while generating_start_location:
-                row = random.randint(1, 20)
-                if row > 9:
+                max = game_field.get_rows()
+                row = random.randint(1, max * 2)
+                if row > max:
                     col = 1 + coord
-                    while row > 9:
-                        row = row - 10
+                    while row > max:
+                        row = row - max
                 else:
                     col = coord
-                if game_field.is_spot_available(row, col):
+                if game_field.is_valid(row, col):
                     print(f"checking {row =} {col =}")
                     generating_start_location = False
-            self.players.append(Character.Character(row, col, active_color, game_field))
+            self.players.append(Character.Character(row, col, team_color, game_field, pygame, screen))
 
     def get_player_count(self):
         return len(self.players)

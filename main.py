@@ -43,16 +43,15 @@ These are game sepcific globals. Adjust to meet your needs:
     PLAYABLE_TILE: color of tile that character can move on.
     RETREAT_TILE: color of tile to use for out of bounds.
 """
-TILE_SIZE = 40
+TILE_SIZE = 64
 TILE_MARGIN = 0
 WINDOW_WIDTH = 14 
 WINDOW_HEIGHT = 10
 NUMBER_OF_TEAMS = 2
 PLAYERS_PER_TEAM = 2
-PLAYABLE_TILE = LAWN_GREEN
 RETREAT_TILE = OLIVE
 TEAMS = [{ "color": RED, "startingLoc": 1},
-     { "color": BLUE, "startingLoc": 11}]
+     { "color": BLUE, "startingLoc": WINDOW_WIDTH - 3}]
 
 
 def get_next_team_player(move_team, teams):
@@ -68,7 +67,6 @@ def get_next_team_player(move_team, teams):
         else:
             move_team = move_team + 1
         check_current_team = teams[move_team].get_next_player()
-    ### 
     return move_team
         
 def main():
@@ -78,16 +76,15 @@ def main():
     clock = pygame.time.Clock()
     screen.fill(BLACK)
     game_board = GameField.GameField(WINDOW_HEIGHT, WINDOW_WIDTH, TILE_SIZE, TILE_MARGIN,
-                            PLAYABLE_TILE, RETREAT_TILE, pygame, screen)
-    game_board.draw()
+                            RETREAT_TILE, pygame, screen)
+    game_board.draw_background()
     teams = []
     for team in TEAMS:
-        teams.append(Team.Team(team['startingLoc'], PLAYERS_PER_TEAM, team['color'], game_board))
+        teams.append(Team.Team(team['startingLoc'], PLAYERS_PER_TEAM, team['color'], game_board, pygame, screen))
     running = True
     move_team = 0
     teams[move_team].get_next_player()
     while running:
-        pygame.display.flip()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
@@ -107,6 +104,8 @@ def main():
                         #end turn, next player
                         teams[move_team].end_player_turn()
                         move_team = get_next_team_player(move_team, teams)
+
+        pygame.display.update()
         clock.tick(60)
 
     pygame.quit()
