@@ -1,6 +1,6 @@
 class FieldObject():
     
-    def __init__(self, row, col, border, name):
+    def __init__(self, row, col, border, name, image):
         self.name = name
         self.column = row
         self.col = col
@@ -8,6 +8,7 @@ class FieldObject():
         self.player_location = False
         self.rect = None
         self.player_location = False
+        self.image = image
 
     def get_name(self):
         return self.name
@@ -19,5 +20,8 @@ class FieldObject():
         self.player_location = is_player_there
 
     def is_available(self):
-        return not self.player_location
+        return not self.player_location and self.name == 'Grounds'
+    
+    def has_base_image(self):
+        return not self.base_image == None
         
