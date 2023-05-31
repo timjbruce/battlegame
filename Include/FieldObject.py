@@ -20,7 +20,7 @@ class FieldObject():
         self.player_location = is_player_there
 
     def is_available(self):
-        return not self.player_location and self.name == 'Grounds'
+        return not self.player_location and (self.name == 'Grounds' or self.name == 'Retreat')
     
     def has_base_image(self):
         return not self.base_image == None
